@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { IconButton, Box, Typography, useTheme, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -17,15 +17,8 @@ const Item = ({ item, width }) => {
   } = useTheme();
 
   const { category, price, name, image } = item.attributes;
-  const {
-    data: {
-      attributes: {
-        formats: {
-          medium: { url },
-        },
-      },
-    },
-  } = image;
+  // Check if 'image' is defined and has the required properties
+  const url = image?.data?.attributes?.formats?.medium?.url || "";
 
   return (
     <Box width={width}>
@@ -38,7 +31,7 @@ const Item = ({ item, width }) => {
           alt={item.name}
           width="300px"
           height="400px"
-          src={`http://localhost:2000${url}`}
+          src={`http://localhost:1337${url}`}
           onClick={() => navigate(`/item/${item.id}`)}
           style={{ cursor: "pointer" }}
         />
