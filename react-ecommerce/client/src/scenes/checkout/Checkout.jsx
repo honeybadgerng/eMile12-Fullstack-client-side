@@ -7,6 +7,7 @@ import { shades } from "../../theme";
 import Payment from "./Payment";
 import Shipping from "./Shipping";
 import { loadStripe } from "@stripe/stripe-js";
+import { PaystackButton } from "react-paystack";
 
 const stripePromise = loadStripe(
   "pk_test_51LgU7yConHioZHhlAcZdfDAnV9643a7N1CMpxlKtzI1AUWLsRyrord79GYzZQ6m8RzVnVQaHsgbvN1qSpiDegoPi006QkO0Mlc"
@@ -17,6 +18,7 @@ const Checkout = () => {
   const cart = useSelector((state) => state.cart.cart);
   const isFirstStep = activeStep === 0;
   const isSecondStep = activeStep === 1;
+  const isThirdStep = activeStep === 2;
 
   const handleFormSubmit = async (values, actions) => {
     setActiveStep(activeStep + 1);
@@ -57,6 +59,21 @@ const Checkout = () => {
       sessionId: session.id,
     });
   }
+
+  const totalAmount = cart.reduce((acc, item) => {
+    return acc + item.attributes.price;
+  }, 0);
+
+  console.log(`ENV: ${process.env.REACT_APP_PAYSTACK_API_KEY} `);
+
+  const paystackProps = {
+    publicKey: process.env.REACT_APP_PAYSTACK_API_KEY,
+    amount: totalAmount * 100,
+    text: "Pay Now",
+    onSuccess: () =>
+      alert("Thanks for doing business with us! Come back soon!!"),
+    onClose: () => alert("Wait! You need this oil, don't go!!!!"),
+  };
 
   return (
     <Box width="80%" m="100px auto">
@@ -122,21 +139,50 @@ const Checkout = () => {
                     Back
                   </Button>
                 )}
-                <Button
-                  fullWidth
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  sx={{
-                    backgroundColor: shades.primary[400],
-                    boxShadow: "none",
-                    color: "white",
-                    borderRadius: 0,
-                    padding: "15px 40px",
-                  }}
-                >
-                  {!isSecondStep ? "Next" : "Place Order"}
-                </Button>
+                {isThirdStep ? (
+                  <PaystackButton
+                    {...{
+                      ...paystackProps,
+                      email: values.email,
+                      className: "paystack-button",
+                    }}
+                  />
+                ) : (
+                  <Button
+                    fullWidth
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    sx={{
+                      backgroundColor: shades.primary[400],
+                      boxShadow: "none",
+                      color: "white",
+                      borderRadius: 0,
+                      padding: "15px 40px",
+                    }}
+                  >
+                    {!isSecondStep ? "Next" : "Place Order"}
+                  </Button>
+                )}
+                {/* {!isSecondStep ? (
+                  <PaystackButton {...{ text: "Pay Now" }}  />
+                ) : (
+                  <Button
+                    fullWidth
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    sx={{
+                      backgroundColor: shades.primary[400],
+                      boxShadow: "none",
+                      color: "white",
+                      borderRadius: 0,
+                      padding: "15px 40px",
+                    }}
+                  >
+                    Place Order
+                  </Button> */}
+                {/* )} */}
               </Box>
             </form>
           )}
