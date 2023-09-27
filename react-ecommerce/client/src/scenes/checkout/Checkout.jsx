@@ -64,8 +64,6 @@ const Checkout = () => {
     return acc + item.attributes.price;
   }, 0);
 
-  console.log(`ENV: ${process.env.REACT_APP_PAYSTACK_API_KEY} `);
-
   const paystackProps = {
     publicKey: process.env.REACT_APP_PAYSTACK_API_KEY,
     amount: totalAmount * 100,
