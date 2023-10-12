@@ -1,10 +1,8 @@
 
 # E-mile12 fullstack README
 
-
-
 Welcome to the README of eMile12 🛍️
-
+You can access the original project using this link: e-mile12-client.vercel.app
 
 
 ## Table of Contents
@@ -74,7 +72,6 @@ Honeybadgerng
 
 RJB Xclusive tech
 
-## you can access the project using this link: e-mile12-client.vercel.app
 
 Thank you for visiting eMile12! Happy shopping! 🎉
 
