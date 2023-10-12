@@ -1,7 +1,7 @@
 
 # E-mile12 fullstack README
 
-# you can demo the original project via this link: e-mile12-client.vercel.app
+you can demo the original project via this link: e-mile12-client.vercel.app
 
 Welcome to the README of eMile12 🛍️
 
