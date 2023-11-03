@@ -21,7 +21,9 @@ const Checkout = () => {
   const isThirdStep = activeStep === 2;
 
   const handleFormSubmit = async (values, actions) => {
-    setActiveStep(activeStep + 1);
+    if (activeStep !== 2) {
+      setActiveStep(activeStep + 1);
+    }
 
     // this copies the billing address onto shipping address
     if (isFirstStep && values.shippingAddress.isSameAddress) {
@@ -41,6 +43,7 @@ const Checkout = () => {
   async function makePayment(values) {
     const stripe = await stripePromise;
     const requestBody = {
+      billingAddress: values.billingAddress,
       userName: [values.firstName, values.lastName].join(" "),
       email: values.email,
       products: cart.map(({ id, count }) => ({
