@@ -46,6 +46,7 @@ const Checkout = () => {
       billingAddress: values.billingAddress,
       userName: [values.firstName, values.lastName].join(" "),
       email: values.email,
+      phoneNumber: values.phoneNumber,
       products: cart.map(({ id, count }) => ({
         id,
         count,
