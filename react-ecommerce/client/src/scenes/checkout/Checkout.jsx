@@ -44,16 +44,17 @@ const Checkout = () => {
     const stripe = await stripePromise;
     const requestBody = {
       billingAddress: values.billingAddress,
-      userName: [values.firstName, values.lastName].join(" "),
+      userName: `${values.billingAddress.firstName} ${values.billingAddress.lastName}`,
       email: values.email,
       phoneNumber: values.phoneNumber,
       products: cart.map(({ id, count }) => ({
         id,
         count,
       })),
+      price: totalAmount,
     };
 
-    const response = await fetch("http://localhost:1337/api/orders", {
+    const response = await fetch("http://localhost:1337/api/order", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestBody),
